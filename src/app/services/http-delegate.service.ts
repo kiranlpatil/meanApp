@@ -1,8 +1,8 @@
-import { Injectable } from "@angular/core";
-import { HttpHeaders, HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { catchError, map } from "rxjs/internal/operators";
-import { BaseService } from "./base.service";
+import { Injectable } from '@angular/core';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { catchError, map } from 'rxjs/internal/operators';
+import { BaseService } from './base.service';
 
 @Injectable()
 export class HttpDelegateService extends BaseService {
@@ -12,7 +12,7 @@ export class HttpDelegateService extends BaseService {
 
   getAPI(url: string): Observable<any> {
     const httpOptions = {
-      headers: new HttpHeaders({ "Content-Type": "application/json" }),
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     return this.http
       .get(url, httpOptions)
@@ -21,7 +21,7 @@ export class HttpDelegateService extends BaseService {
 
   putAPI(url: string, body: any): Observable<any> {
     const httpOptions = {
-      headers: new HttpHeaders({ "Content-Type": "application/json" }),
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     return this.http
       .put(url, JSON.stringify(body), httpOptions)
@@ -30,7 +30,7 @@ export class HttpDelegateService extends BaseService {
 
   postAPI(url: string, body: any): Observable<any> {
     const httpOptions = {
-      headers: new HttpHeaders({ "Content-Type": "application/json" }),
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     return this.http
       .post(url, JSON.stringify(body), httpOptions)
@@ -39,7 +39,7 @@ export class HttpDelegateService extends BaseService {
 
   deleteAPI(url: string): Observable<any> {
     const httpOptions = {
-      headers: new HttpHeaders({ "Content-Type": "application/json" }),
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     };
     return this.http
       .delete(url, httpOptions)

@@ -1,72 +1,58 @@
-import { Component, OnInit } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
-import { takeUntil } from "rxjs/internal/operators";
-import { SessionStorageService } from "../services/session.service";
-import { HttpDelegateService } from "../services/http-delegate.service";
-import { Subject } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SessionStorageService } from '../services/session.service';
+import {Constants} from '../shared/constants';
+import {environment} from '../../environments/environment';
 
 @Component({
-  selector: "app-login",
-  templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"],
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit {
-  public ngUnsubscribe = new Subject();
-
-  title = "Solutions";
-  userInfo: any = {
-    email: "",
-    password: "",
+export class LoginComponent {
+  public userInfo: { email: string, password: string } = {
+    email: '',
+    password: '',
   };
-  momentList = [];
-  hide = true;
+  public hide = true;
   constructor(
     private snackBar: MatSnackBar,
     private router: Router,
     private httpClient: HttpClient
   ) {}
 
-  ngOnInit(): void {}
-
-  validateEmail(email: string) {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
+  private openSnackBar(message: string): void {
+    this.snackBar.open(message, '', {
       duration: 2000,
     });
   }
-  validateInputs(userInfo: any) {
-    if (!(userInfo.email && this.validateEmail(userInfo.email))) {
-      this.openSnackBar("Please enter a valid email id.", "");
+
+  private validateInputs(userInfo: { email: string, password: string }): boolean {
+    if (!(userInfo.email && Constants.validateEmail(userInfo.email))) {
+      this.openSnackBar(Constants.email);
       return false;
     }
     if (!(userInfo.password && userInfo.password.length >= 6)) {
-      this.openSnackBar("Please enter a valid password.", "");
+      this.openSnackBar(Constants.password);
       return false;
     }
     return true;
   }
 
-  login(userInfo: any) {
+  public onLogin(userInfo: { email: string, password: string }): void {
     if (!this.validateInputs(userInfo)) {
       return;
     }
-    const url = "http://localhost:3000/api/user/login";
+    const url = environment.apiUrl + 'user/login';
     this.httpClient.post(url, userInfo).subscribe(
       (success: any) => {
-        SessionStorageService.setSessionValue("access_token", success.token);
-        this.router.navigateByUrl("/home");
+        SessionStorageService.setSessionValue(Constants.accessToken, success.token);
+        this.router.navigateByUrl(Constants.home).then();
       },
       (error) =>
-        this.snackBar.open(error.message, "", {
-          duration: 2000,
-        })
+        this.openSnackBar(error.message)
     );
   }
 }

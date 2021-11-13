@@ -1,7 +1,6 @@
 import {
     Directive,
     Output,
-    Input,
     EventEmitter,
     HostBinding,
     HostListener
@@ -11,7 +10,7 @@ import {
     selector: '[appDnd]'
 })
 export class DndDirective {
-    @HostBinding('class.fileover') fileOver: boolean = false;
+    @HostBinding('class.fileover') fileOver = false;
     @Output() fileDropped = new EventEmitter<any>();
 
     // Dragover listener
@@ -33,7 +32,7 @@ export class DndDirective {
         evt.preventDefault();
         evt.stopPropagation();
         this.fileOver = false;
-        let files = evt.dataTransfer.files;
+        const files = evt.dataTransfer.files;
         if (files.length > 0) {
             this.fileDropped.emit(files);
         }

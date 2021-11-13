@@ -1,99 +1,104 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from "@angular/router";
-import { Subject } from "rxjs";
-import { takeUntil } from "rxjs/internal/operators";
-import { SessionStorageService } from "./../services/session.service";
+import { HttpClient } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SessionStorageService } from '../services/session.service';
+import {environment} from '../../environments/environment';
+import {Constants} from '../shared/constants';
+
+export interface UserInfo {
+  firstName: string;
+  lastName: string;
+  mobileNumber: number;
+  email: string;
+  city: string;
+  password: string;
+}
 
 @Component({
-  selector: "app-sign-up",
-  templateUrl: "./sign-up.component.html",
-  styleUrls: ["./sign-up.component.scss"],
+  selector: 'app-sign-up',
+  templateUrl: './sign-up.component.html',
+  styleUrls: ['./sign-up.component.scss'],
 })
+
 export class SignUpComponent implements OnInit {
-  public ngUnsubscribe = new Subject();
-  public userInfo: any = {
-    firstName: "",
-    lastName: "",
-    mobileNumber: "",
-    email: "",
-    city: "",
-    password: "",
-  };
-  hide = true;
-  breakpoint = 0;
   constructor(
-    private snackBar: MatSnackBar,
     private router: Router,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private snackBar: MatSnackBar
   ) {}
+  public userInfo: UserInfo = {
+    firstName: '',
+    lastName: '',
+    mobileNumber: null,
+    email: '',
+    city: '',
+    password: '',
+  };
+  public hide = true;
+  public breakpoint = 0;
+
+  private static validateEmail(email: string): boolean {
+    const re = Constants.regex;
+    return re.test(String(email).toLowerCase());
+  }
 
   ngOnInit(): void {
     this.breakpoint = window.innerWidth <= 650 ? 1 : 2;
   }
 
-  validateEmail(email: string) {
-    const re =
-      // tslint:disable-next-line:max-line-length
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  }
-
-  onResize(event: any) {
+  public onResize(event: any): void {
     this.breakpoint = event.target.innerWidth <= 650 ? 1 : 2;
   }
 
-  openSnackBar(message: string, action: string) {
-    this.snackBar.open(message, action, {
+  private openSnackBar(message: string): void {
+    this.snackBar.open(message, '', {
       duration: 2000,
     });
   }
 
-  validateInputs(userInfo: any) {
+  validateInputs(userInfo: UserInfo): boolean {
     if (!userInfo.firstName) {
-      this.openSnackBar("Please enter first name.", "");
+      this.openSnackBar(Constants.firstName);
       return false;
     }
     if (!userInfo.lastName) {
-      this.openSnackBar("Please enter last name.", "");
+      this.openSnackBar(Constants.lastName);
       return false;
     }
     if (
       !(userInfo.mobileNumber && userInfo.mobileNumber.toString().length === 10)
     ) {
-      this.openSnackBar("Please enter valid mobile no.", "");
+      this.openSnackBar(Constants.mobileNo);
       return false;
     }
-    if (!(userInfo.email && this.validateEmail(userInfo.email))) {
-      this.openSnackBar("Please enter a valid email id.", "");
+    if (!(userInfo.email && SignUpComponent.validateEmail(userInfo.email))) {
+      this.openSnackBar(Constants.email);
       return false;
     }
     if (!userInfo.city) {
-      this.openSnackBar("Please enter city.", "");
+      this.openSnackBar(Constants.city);
       return false;
     }
     if (!(userInfo.password && userInfo.password.length >= 6)) {
-      this.openSnackBar("Please enter a valid password.", "");
+      this.openSnackBar(Constants.password);
       return false;
     }
     return true;
   }
 
-  onSignUp(userInfo: any) {
+  onSignUp(userInfo: UserInfo): void {
     if (!this.validateInputs(userInfo)) {
       return;
     }
-    const url = "http://localhost:3000/api/user/sign-up";
+    const url = environment.apiUrl + 'user/sign-up';
     this.httpClient.post(url, userInfo).subscribe(
       (success: any) => {
-        SessionStorageService.setSessionValue("access_token", success.token);
-        this.router.navigateByUrl("/home");
+        SessionStorageService.setSessionValue(Constants.accessToken, success.token);
+        this.router.navigateByUrl(Constants.home).then();
       },
       (error) =>
-        this.snackBar.open(error.message, "", {
-          duration: 2000,
-        })
+        this.openSnackBar(error.message)
     );
   }
 }

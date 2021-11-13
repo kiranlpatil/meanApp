@@ -1,3 +1,10 @@
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  text-align: center;
+}
 .mat-toolbar.mat-primary {
   background: #050a23;
   color: #fff;
@@ -5,12 +12,10 @@
   text-align: center;
 }
 
-.center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  text-align: center;
+h1.row.signInText {
+  font-size: 35px;
+  font-weight: bold;
+  margin-top: 50px;
 }
 
 mat-toolbar .logo img {
@@ -28,15 +33,13 @@ mat-toolbar .logo img {
   background: white;
 }
 
-h1.row.signInText {
-  font-size: 35px;
-  font-weight: bold;
-  margin-top: 50px;
-}
-
 mat-card {
   box-shadow: none !important;
   text-align: center;
+}
+
+.full-width {
+  padding-top: 15px;
 }
 
 mat-form-field {
@@ -49,19 +52,6 @@ mat-form-field {
   width: 50% !important;
 }
 
-.form-fields {
-  display: flex;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-.full-width {
-  padding-top: 15px;
-}
-.mat-icon {
-  padding-right: 15px;
-}
-
 .mat-flat-button.mat-primary,
 .mat-raised-button.mat-primary,
 .mat-fab.mat-primary,
@@ -71,6 +61,17 @@ mat-form-field {
   height: 45px;
   border-radius: 24px;
   background-color: #050a23;
+}
+
+
+.form-fields {
+  display: flex;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+.mat-icon {
+  padding-right: 15px;
 }
 
 .support {

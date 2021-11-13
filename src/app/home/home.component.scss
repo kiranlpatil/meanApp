@@ -3,23 +3,19 @@
   height: 100vh;
 }
 
+.centerProfile {
+  display: block;
+  padding: 20px;
+  font-size: 30px;
+  text-align: left;
+}
+
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
   text-align: center;
-}
-
-.mat-expansion-panel-header {
-  background-color: deepskyblue;
-}
-
-.centerProfile {
-  display: block;
-  padding: 20px;
-  font-size: 30px;
-  text-align: left;
 }
 
 .logo img {
@@ -30,12 +26,6 @@
 
 .spacer {
   margin: 20% 0 25% 20%;
-}
-
-.sidenav-content {
-  height: 100%;
-  width: auto;
-  margin: 1%;
 }
 
 .sidenav {
@@ -59,3 +49,14 @@
 .plist {
   padding: 12px;
 }
+
+.mat-expansion-panel-header {
+  background-color: deepskyblue;
+}
+
+.sidenav-content {
+  height: 100%;
+  width: auto;
+  margin: 1%;
+}
+

@@ -1,32 +1,31 @@
-import { Component, OnInit } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { SessionStorageService } from "./../services/session.service";
+import { Component, OnInit } from '@angular/core';
+import { SessionStorageService } from '../services/session.service';
+import {Constants} from '../shared/constants';
 
 @Component({
-  selector: "app-home",
-  templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.scss"],
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  panelOpenState: boolean = false;
-  avatar: string =
-    "https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg";
-  screen = "table";
-  moments = <any>[];
+  panelOpenState = false;
+  avatar = 'https://icon-library.com/images/avatar-icon-images/avatar-icon-images-4.jpg';
+  screen = 'table';
+  moments = [] as any;
   constructor() {}
 
   ngOnInit(): void {}
 
-  getScreenWidth() {
+  public getScreenWidth() {
     return window.innerWidth;
   }
 
-  onAdded(moment: any) {
-    console.log(moment);
+  public onAdded(moment: any): void {
     this.moments.push(moment);
-    this.screen = "table";
+    this.screen = 'table';
   }
-  logout() {
-    SessionStorageService.removeSessionValue("access_token");
+
+  public logout(): void {
+    SessionStorageService.removeSessionValue(Constants.accessToken);
   }
 }

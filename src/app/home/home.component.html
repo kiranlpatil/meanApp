@@ -53,7 +53,7 @@
       >
         <a mat-icon-button routerLink="signup">
           <mat-icon *ngIf="!avatar">account_circle</mat-icon>
-          <img *ngIf="avatar" [src]="avatar" width="40px" height="40px" />
+          <img *ngIf="avatar" [src]="avatar" width="40px" height="40px"  alt=""/>
         </a>
         <mat-icon>expand_more</mat-icon>
         <mat-menu #menu="matMenu">
@@ -69,7 +69,7 @@
     <app-moment-table *ngIf="screen === 'table'"></app-moment-table>
     <app-add-moment
       *ngIf="screen === 'add'"
-      (done)="onAdded($event)"
+      (updatedMoment)="onAdded($event)"
     ></app-add-moment>
   </div>
 </mat-drawer-container>

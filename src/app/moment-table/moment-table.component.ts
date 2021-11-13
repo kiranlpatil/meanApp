@@ -1,27 +1,25 @@
-import { HttpClient } from "@angular/common/http";
-import { AfterViewInit, Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatTableDataSource } from "@angular/material/table";
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import {environment} from '../../environments/environment';
 
-/**
- * @title Table with pagination
- */
 @Component({
-  selector: "app-moment-table",
-  styleUrls: ["moment-table.component.scss"],
-  templateUrl: "moment-table.component.html",
+  selector: 'app-moment-table',
+  styleUrls: ['moment-table.component.scss'],
+  templateUrl: 'moment-table.component.html',
 })
-export class MomentTable implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ["serial", "image", "title", "tags", "action"];
+export class MomentTableComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['serial', 'image', 'title', 'tags', 'action'];
   isEditMoment = false;
   pageSize = 5;
   totalCount = 100;
   pageIndex = 0;
   pageEvent: PageEvent | any;
-  data = new MatTableDataSource<PeriodicElement>();
+  data = new MatTableDataSource<TableElement>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  editMoment: PeriodicElement;
+  editMoment: TableElement;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -40,8 +38,7 @@ export class MomentTable implements OnInit, AfterViewInit {
   }
 
   getMoments(page: number) {
-    const url =
-      "http://localhost:3000/api/moment" + "/" + page + "/" + this.pageSize;
+    const url = environment.apiUrl + 'moment' + '/' + page + '/' + this.pageSize;
     this.httpClient.get(url).subscribe(
       (success: { count: number; data: []; status: string }) => {
         this.data.data = success.data.reverse();
@@ -52,8 +49,8 @@ export class MomentTable implements OnInit, AfterViewInit {
     );
   }
 
-  onDelete(moment: PeriodicElement) {
-    const url = "http://localhost:3000/api/moment" + "/" + moment._id;
+  onDelete(moment: TableElement) {
+    const url = environment.apiUrl + '/moment' + '/' + moment._id;
     this.httpClient.delete(url).subscribe(
       () => {
         const dataSource = this.data.data;
@@ -66,7 +63,7 @@ export class MomentTable implements OnInit, AfterViewInit {
     );
   }
 
-  onEditFinished(editedMoment: PeriodicElement) {
+  onEditFinished(editedMoment: TableElement) {
     this.isEditMoment = false;
     console.log(this.editMoment);
     const dataSource = this.data.data;
@@ -78,13 +75,13 @@ export class MomentTable implements OnInit, AfterViewInit {
     this.data.data = dataSource;
   }
 
-  onEdit(moment: PeriodicElement) {
+  onEdit(moment: TableElement) {
     this.isEditMoment = true;
     this.editMoment = moment;
   }
 }
 
-export interface PeriodicElement {
+export interface TableElement {
   _id: string;
   title: string;
   imageUrl: number;

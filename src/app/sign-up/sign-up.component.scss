@@ -1,8 +1,10 @@
-.mat-toolbar.mat-primary {
-  background: #050a23;
-  color: #fff;
-  height: 250px;
-  text-align: center;
+.signup-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 60px;
+  margin-top: -60px;
+  background: white;
 }
 
 .center {
@@ -13,50 +15,11 @@
   text-align: center;
 }
 
-mat-toolbar .logo img {
-  max-width: 100px;
-  width: auto;
-  height: auto;
-}
-
-.signup-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-top-left-radius: 60px;
-  margin-top: -60px;
-  background: white;
-}
-
-h1.row.signInText {
-  font-size: 35px;
-  font-weight: bold;
-  margin-top: 50px;
-}
-
-mat-card {
-  box-shadow: none !important;
+.mat-toolbar.mat-primary {
+  background: #050a23;
+  color: #fff;
+  height: 250px;
   text-align: center;
-}
-
-mat-form-field {
-  display: block;
-}
-
-.signup-row {
-  max-width: 800px;
-  min-width: 300px;
-  width: 50% !important;
-}
-
-.form-fields {
-  display: flex;
-  padding-top: 10px;
-  padding-left: 10px;
-}
-
-.full-width {
-  width: 85%;
 }
 
 .icon {
@@ -85,6 +48,43 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+mat-toolbar .logo img {
+  max-width: 100px;
+  width: auto;
+  height: auto;
+}
+
+.signup-row {
+  max-width: 800px;
+  min-width: 300px;
+  width: 50% !important;
+}
+
+.form-fields {
+  display: flex;
+  padding-top: 10px;
+  padding-left: 10px;
+}
+
+h1.row.signInText {
+  font-size: 35px;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.full-width {
+  width: 85%;
+}
+
 .support {
   padding-top: 25px;
+}
+
+mat-card {
+  box-shadow: none !important;
+  text-align: center;
+}
+
+mat-form-field {
+  display: block;
 }
