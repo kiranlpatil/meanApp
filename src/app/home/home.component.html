@@ -1,0 +1,75 @@
+<mat-drawer-container class="container" autosize>
+  <mat-drawer
+    #drawer
+    class="sidenav"
+    mode="side"
+    [opened]="getScreenWidth() > 300"
+  >
+    <span class="spacer center">
+      <span class="logo">
+        <img src="assets/5d_logo_2.jfif" alt="Logo" />
+      </span>
+    </span>
+    <mat-accordion>
+      <div>
+        <span class="centerProfile"> Profile </span>
+      </div>
+      <mat-expansion-panel
+        (opened)="panelOpenState = true"
+        (closed)="panelOpenState = false"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Moments </mat-panel-title>
+        </mat-expansion-panel-header>
+        <li
+          class="pointer plist"
+          (click)="screen = 'table'"
+          [class.backg]="screen === 'table'"
+        >
+          Moment List
+        </li>
+        <li
+          class="pointer plist"
+          (click)="screen = 'add'"
+          [class.backg]="screen === 'add'"
+        >
+          Add new moment
+        </li>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-drawer>
+
+  <p>
+    <mat-toolbar>
+      <button mat-icon-button (click)="drawer.toggle()" aria-label=" Menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        class="right"
+        aria-label="Profile"
+      >
+        <a mat-icon-button routerLink="signup">
+          <mat-icon *ngIf="!avatar">account_circle</mat-icon>
+          <img *ngIf="avatar" [src]="avatar" width="40px" height="40px" />
+        </a>
+        <mat-icon>expand_more</mat-icon>
+        <mat-menu #menu="matMenu">
+          <button (click)="logout()" routerLink="/login" mat-menu-item>
+            Logout &nbsp; <mat-icon>exit_to_app</mat-icon>
+          </button>
+        </mat-menu>
+      </button>
+    </mat-toolbar>
+  </p>
+
+  <div class="sidenav-content">
+    <app-moment-table *ngIf="screen === 'table'"></app-moment-table>
+    <app-add-moment
+      *ngIf="screen === 'add'"
+      (done)="onAdded($event)"
+    ></app-add-moment>
+  </div>
+</mat-drawer-container>

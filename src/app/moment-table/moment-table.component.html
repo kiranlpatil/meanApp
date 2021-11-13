@@ -1,0 +1,73 @@
+<mat-card class="container"
+  ><strong>{{
+    data.data.length > 0 ? "Moments" : "No Moments in the list"
+  }}</strong></mat-card
+>
+<div *ngIf="data.data.length" class="mat-elevation-z8 container">
+  <table mat-table [dataSource]="data">
+    <ng-container matColumnDef="serial">
+      <th mat-header-cell *matHeaderCellDef>Sr.No</th>
+      <td mat-cell *matCellDef="let element">
+        {{ data.filteredData.indexOf(element) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef>Images</th>
+      <td mat-cell *matCellDef="let element">
+        <img
+          [src]="element.imageUrl"
+          alt=""
+          height="40"
+          width="40"
+          style="border-radius: 50%"
+        />
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="tags">
+      <th mat-header-cell *matHeaderCellDef>Tags</th>
+      <td mat-cell *matCellDef="let element" style="flex-wrap: nowrap">
+        <mat-chip-list #chipList aria-label="tag selection">
+          <mat-chip *ngFor="let tag of element.tags">
+            {{ tag }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let element" style="flex-wrap: nowrap">
+        <mat-icon class="pointer" (click)="onEdit(element)">edit</mat-icon
+        >&nbsp;
+        <mat-icon class="pointer" (click)="onDelete(element)"
+          >delete_outline</mat-icon
+        >
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+
+  <mat-paginator
+    [pageIndex]="pageIndex"
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="pageEvent = handlePage($event)"
+  >
+  </mat-paginator>
+</div>
+<app-add-moment
+  *ngIf="isEditMoment"
+  [(moment)]="editMoment"
+  (done)="onEditFinished($event)"
+></app-add-moment>

@@ -1,18 +1,49 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppRoutingModule } from "./app-routing.module";
+import { AppComponent } from "./app.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { MaterialModule } from "./material.module";
+import { FormsModule } from "@angular/forms";
+import { SignUpComponent } from "./sign-up/sign-up.component";
+import { LoginComponent } from "./login/login.component";
+import { HomeComponent } from "./home/home.component";
+import { MomentTable } from "./moment-table/moment-table.component";
+import { AddMomentComponent } from "./add-moment/add-moment.component";
+import { FileUploadComponent } from "./file-upload/file-upload.component";
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { HttpAuthInterceptor } from "./services/http-auth.interceptor";
+import { AuthGuardService } from "./services/auth-guard.service";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SignUpComponent,
+    LoginComponent,
+    HomeComponent,
+    MomentTable,
+    AddMomentComponent,
+    FileUploadComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    MaterialModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    MatPaginatorModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpAuthInterceptor,
+      multi: true,
+    },
+    AuthGuardService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
